@@ -16,7 +16,7 @@ dotenv.config();
 // Middleware
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
-app.use(cors()); // Adding cors middleware
+app.use(cors());
 
 // Register product routes with the /api/v1 prefix
 app.use("/api/v1", productRoutes);
