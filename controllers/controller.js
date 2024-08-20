@@ -41,7 +41,7 @@ const createProduct = asyncHandler(async (req, res, next) => {
       countInStock,
     });
 
-    const createdProduct = await product.save(); // Save the product to the database
+    const createdProduct = await product.save();
 
     res.status(201).json({
       success: true,
@@ -83,4 +83,57 @@ const productList = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { createProduct, productList };
+const deleteProduct = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      return next(new CustomError(404, "Category not found."));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully.",
+    });
+  } catch (error) {
+    return next(new CustomError(500, "Failed to delete category."));
+  }
+});
+
+const updateProduct = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  // Validate input
+  if (!updates.name && !updates.color && !updates.icon) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "At least one field (name, color, or icon) must be provided for update.",
+    });
+  }
+
+  try {
+    const product = await Product.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+
+    if (!product) {
+      return next(
+        new CustomError(404, "The category with the given ID was not found.")
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      data: product,
+      message: "Product updated successfully.",
+    });
+  } catch (error) {
+    return next(new CustomError(500, "Failed to update product."));
+  }
+});
+
+export { createProduct, productList, deleteProduct, updateProduct };

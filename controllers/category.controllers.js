@@ -2,11 +2,9 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import { CustomError } from "../middleware/errorHandler.js";
 import Category from "../model/category.js";
 
-// Create Category
 const createCategory = asyncHandler(async (req, res, next) => {
   const { name, color, icon } = req.body;
 
-  // Validate input
   if (!name || !color || !icon) {
     return next(new CustomError(400, "All fields are required"));
   }
@@ -25,7 +23,6 @@ const createCategory = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Find Category
 const findCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 

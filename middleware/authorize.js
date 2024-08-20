@@ -1,6 +1,6 @@
-import User from "../model/model.js";
 import { decodeAccessToken } from "../services/jwtServices.js";
 import { CustomError } from "./errorHandler.js";
+import User from "../models/user.model.js";
 
 export const isAuthenticated = async (req, res, next) => {
   const { accessToken } = req.cookies;

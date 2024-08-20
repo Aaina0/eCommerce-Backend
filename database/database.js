@@ -3,9 +3,15 @@ import { mongoUri } from "../config/config.js";
 
 export const database = async () => {
   try {
-    await mongoose.connect(mongoUri);
-    console.log("Database Connected");
+    const cleanedUri = mongoUri.replace(/"/g, "").trim();
+    console.log("Mongo URI:", cleanedUri); // Log the cleaned URI
+
+    await mongoose.connect(cleanedUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Database Connected Successfully");
   } catch (error) {
-    console.log(error);
+    console.error("Database Connection Error:", error.message);
   }
 };
