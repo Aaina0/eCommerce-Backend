@@ -1,16 +1,17 @@
 import express from "express";
 import {
   createProduct,
-  deleteProduct,
   productList,
+  deleteProduct,
   updateProduct,
 } from "../controllers/controller.js";
 
 const app = express.Router();
 
-app.post("/products", createProduct);
-app.get("/products", productList);
-app.delete("/products/:id", deleteProduct);
-app.put("/products/:id", updateProduct);
+// Define routes without the file upload middleware
+app.post("/", createProduct); // No file upload middleware here
+app.get("/", productList);
+app.delete("/:id", deleteProduct);
+app.put("/:id", updateProduct);
 
 export default app;
